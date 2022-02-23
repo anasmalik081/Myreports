@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Page{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <div class="row my-5">
+        <div class="col-sm-3 mb-3">
+            <ul class="list-group">
+                <li class="d-grid border border-warning text-center p-3">CONTACT US</li>
+                <li class="list-group-item list-group-item-action border border-dark border-top-0 p-3 "><a href="" class="text-dark active text-decoration-none view ms-2">Contact</a></li>
+                <li class="list-group-item list-group-item-action border border-dark border-top-0 p-3 "><a href="{% url 'contact-us' %}" class="  text-decoration-none ms-2">Raise a Query</a></li>
+                <li class="list-group-item list-group-item-action border border-dark border-top-0 p-3 "><a href="{% url 'FAQ' %}" class="text-decoration-none ms-2">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="col">
+            <h4 class="text-secondary display-6">CONTACT DETAILS</h4>
+            <hr>
+            <div class="row">
+                <div class="col-sm-4">
+                    <h5 class="text-secondary">MyREPORTS LTD.</h5>
+                    <p class="text-secondary">Sahibabad, Ghaziabad, Uttar-Pradesh, 201005 <br>Mobile:- +91-7505908986</p>
+                    <h5 class="text-secondary">Email</h5>
+                    <p class="text-secondary">anasmalik081@gmail.com <br>afzalmalik44@gmail.com</p>
+                    <h5 class="text-secondary">Website</h5>
+                    <p class="text-secondary">www.myreports.com</p>
+                    <h5 class="text-secondary">Web Admin Support</h5>
+                    <p class="text-secondary">Mr. Ankit Kumar (MCA) <br>Email ID: ankitripleone@gmail.com</p>
+                </div>
+                <div class="col">
+                    <img src="{% static 'img/lab1.jpg' %}" class="iimg-fluid w-100" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

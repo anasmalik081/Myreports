@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Doctor Refferrals Page{% endblock title %}
+
+{% block body %}
+<div class="container mt-3 px-5">
+  {% if refferals %}
+  <form action="" class="bg-secondary text-light p-3" novalidate method="get">
+    <div class="text-center">
+      <p class="display-6 border-bottom border-light pb-3">Reports With Your Refferals</p>
+    </div>
+    <div class="row g-3">
+      {% for fm in filter.form%}
+      <div class="col-md-6">
+      {{fm.label_tag}}
+      {{fm}}<small class="text-warning">{{fm.errors|striptags}}</small>
+    </div>
+      {% endfor %}
+    </div>
+    <div class="text-center">
+      <input type="submit" class="btn btn-primary mt-3" value="Search">
+    </div>
+  </form>
+</div>
+<div class="container-fluid overflow-scroll my-5">
+    <div class="row">
+        <div class="col">
+          {% if doctor %}
+            <h5 class="display-6 text-center">Total Reports<span>({{doctor.count}})</span></h5>
+            <table class="table   border-top border-secondary mt-3 border-start border-end">
+                <thead>
+                  <tr>
+                    <th scope="col">Report ID</th>
+                    <th scope="col">Report Type</th>
+                    <th scope="col">Lab</th>
+                    <th scope="col">Patient</th>
+                    <th scope="col">Report</th>
+                    <th scope="col">Image</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for d in doctor %}
+                  <tr>
+                    <th scope="row">{{d.report_id}}</th>
+                    <td>{{d.report_name}}</td>
+                    <td>{{d.lab_name}}</td>
+                    <td>{{d.patient_name}}</td>
+                    <td><a href="{{d.report_upload.url}}" class="btn btn-outline-secondary" download="">Download</a></td>
+                    {% if d.report_image %}
+                    <td><a href="{{d.report_image.url}}" class="btn btn-outline-secondary" download="">Download</a></td>
+                    {% else %}
+                    <td>No Image</td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% else %}
+              <h5 class="display-6 text-center">Your Search doesn't match with Any Report</h5>
+              <h5 class="display-6 text-center"><a href="{% url 'doctor-refferals' %}" class="btn btn-warning">Go Back</a></h5>
+              {% endif %}
+        </div>
+    </div>
+    {% else %}
+        <h5 class="display-6 text-center">Oops! Its Strange that you didn't refer any report yet.</h5>
+        <h5 class="display-6 text-center">Hurry Up Refer Some Labs to Patients.</h5>
+    {% endif %}
+</div>
+
+<script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+    $( "#datepicker1" ).datepicker();
+  } );
+</script>
+{% endblock body %}

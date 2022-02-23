@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Page{% endblock title %}
+
+{% block body %}
+<div class="container-fluid overflow-scroll">
+    <div class="row my-5">
+      {% if search_id and search_number %}
+        <h5 class="display-6 text-center">Reports According to Search</h5>
+        <table class="table border-top border-secondary mt-3 border-start border-end">
+            <thead>
+              <tr>
+                <th scope="col">Report ID</th>
+                <th scope="col">Report Name</th>
+                <th scope="col">Lab Name</th>
+                <th scope="col">Patient Name</th>
+                <th scope="col">Download Report</th>
+                <th scope="col">Download Image</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for sr in search_result %}
+              <tr>
+                <th scope="row">{{sr.report_id}}</th>
+                <td>{{sr.report_name}}</td>
+                <td>{{sr.lab_name}}</td>
+                <td>{{sr.patient_name}}</td>
+                <td><a href="{{sr.report_upload.url}}" class="btn btn-outline-secondary" download="">Download</a></td>
+                {% if sr.report_image %}
+                <td><a href="{{sr.report_image.url}}" class="btn btn-outline-secondary" download="">Download</a></td>
+                {% else %}
+                <td>No Image</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+        <div class="row my-3">
+            <h3 class="text-center text-muted">Oops! Lookslike you didn't search Something.</h3>
+            <p class="text-center text-muted">Please Try out Something.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}

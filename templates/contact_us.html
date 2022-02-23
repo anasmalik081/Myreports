@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us Page{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <div class="row my-5">
+        <div class="col-sm-3 mb-3">
+            <ul class="list-group">
+                <li class="d-grid border border-warning text-center p-3">CONTACT US</li>
+                <li class="list-group-item list-group-item-action border border-dark border-top-0 p-3 "><a href="{% url 'contact' %}" class="text-decoration-none view ms-2">Contact</a></li>
+                <li class="list-group-item list-group-item-action border border-dark border-top-0 p-3 "><a href="" class="text-dark active  text-decoration-none ms-2">Raise a Query</a></li>
+                <li class="list-group-item list-group-item-action border border-dark border-top-0 p-3 "><a href="{% url 'FAQ' %}" class="  text-decoration-none ms-2">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="col">
+            <h4 class="text-secondary display-6">Contact Us Form</h4>
+            <hr>
+            <form action="" novalidate method="post" class="px-5">
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger my-3 ">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+                {% if messages %}
+                {% for message in messages %}
+                    <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+                {% endfor %}
+                {% endif %}
+                {% csrf_token %}
+                {% for fm in form %}
+                    <div class="form-group mb-3">
+                        {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+                    </div>
+                {% endfor %}
+                <div class="d-flex justify-content-end">
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

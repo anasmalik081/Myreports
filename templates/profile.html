@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+    <h4>Welcome <span class="text-capitalize">{{request.user.first_name}} {{request.user.last_name}}</span></h4>
+    <div class="col-sm-3 mt-3 border-end">
+        <ul class="list-group">
+            <a href="" class="list-group-item list-group-item-action">Profile</a>
+            <a href="{% url 'add-profile' %}" class="list-group-item list-group-item-action">Update Profile</a>
+        </ul>
+    </div>
+    <div class="col-sm-8 offset-sm-1 ">
+        {% if data.profile_image or data.address %}
+        <div class="card">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-sm-4 border-end">
+                        <div class="text-center">
+                            {% if data.profile_image %}
+                            <img  src="{{data.profile_image.url}}" class="img-fluid border border-warning rounded-circle" width="150vw" alt="">
+                            {% else %}
+                            <img src="#" alt="">
+                            {% endif %}
+                            <h4 class="my-3">{{request.user.first_name}} {{request.user.last_name}}</h4>
+                            <p class="text-muted">{{request.user.email}}<br> <small>+91-{{data.mobile_number}} <br> +102-{{data.phone_number}}</small></p>
+                            <p class="text-muted"></p>
+                        </div>
+                    </div> 
+                    <div class="col-sm-8 ">
+                        <h5 class="text-center display-6">Profile Details</h5>
+                        <hr>
+                        <div class="mt-5 px-2">
+                            <p class="mb-3">Username : {{request.user.username}}</p>
+                            <p class="mb-3"> 
+                                {% if user.is_authenticated and data.is_doctor %}
+                                    Profession : Doctor
+                                {% elif user.is_authenticated and data.is_lab %}
+                                    Profession : Lab Work
+                                {% else %}
+                                    User type : Patient  
+                                {% endif %}
+                            </p>
+                            <p class="mb-3">Address : {{data.address}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-body ">
+                <div class="row">
+                        <div class="text-center">
+                            <h5>Please Update Your Profile!!</h5>
+                        </div> 
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    </div>
+</div>
+{% endblock body %}

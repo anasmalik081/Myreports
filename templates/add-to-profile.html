@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add To Profile{% endblock title %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+    <h4>Welcome <span class="text-capitalize">{{request.user.first_name}} {{request.user.last_name}}</span></h4>
+    <div class="col-sm-3 mt-3 mb-3 border-end">
+        <ul class="list-group">
+            <a href="{% url 'profile' %}" class="list-group-item list-group-item-action">Profile</a>
+            <a href="" class="list-group-item list-group-item-action">Update Profile</a>
+        </ul>
+    </div>
+    <div class="col-sm-8 offset-sm-1 ">
+        <h4 class="text-muted display-5">Update Form</h4>
+        <hr>
+        <div class="card-header bg-primary"></div>
+            <form method="post"  class="shadow p-5" novalidate enctype="multipart/form-data" action="">
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger my-3 ">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+                {% if messages %}
+                {% for message in messages %}
+                    <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+                {% endfor %}
+                {% endif %}
+                {% csrf_token %}
+                {% for fm in form %}
+                <div class="form-group row mb-3">
+                    <label for="" class="col-sm-3 col-form-label">{{fm.label_tag}}</label>
+                    <div class="col-sm-9">
+                        {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+                    </div>
+                  </div>
+                {% endfor %}
+                <div class="d-flex justify-content-center">
+                    <input type="submit" value="Submit" class="btn btn-primary mt-4">
+                </div>
+            </form>
+    </div>
+    </div>
+</div>
+{% endblock body %}

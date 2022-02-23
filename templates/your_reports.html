@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Reports Page{% endblock title %}
+
+{% block body %}
+<div class="container-fluid overflow-scroll my-5">
+    <div class="row">
+        {% if report %}
+        <h5 class="display-6 text-center">Reports Uploaded on Your Name</h5>
+        <table class="table  border-top border-start border-end border-secondary mt-3">
+            <thead>
+              <tr>
+                <th scope="col">Report ID</th>
+                <th scope="col">Report Type</th>
+                <th scope="col">Lab</th>
+                <th scope="col">Patient</th>
+                <th scope="col">Report</th>
+                <th scope="col">Image</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for r in report %}
+              <tr>
+                <th scope="row">{{r.report_id}}</th>
+                <td>{{r.report_name}}</td>
+                <td>{{r.lab_name}}</td>
+                <td>{{r.patient_name}}</td>
+                <td><a href="{{r.report_upload.url}}" class="btn btn-outline-secondary" download="">Download</a></td>
+                {% if r.report_image %}
+                <td><a href="{{r.report_image.url}}" class="btn btn-outline-secondary" download="">Download</a></td>
+                {% else %}
+                <td>No Image</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+        {% if user_report %}
+        <h5 class="display-6 text-center mt-5">Reports Uploaded by You</h5>
+        <table class="table border-top border-start border-end border-secondary mt-3">
+            <thead>
+              <tr>
+                <th scope="col">Report ID</th>
+                <th scope="col">Report Type</th>
+                <th scope="col">Lab</th>
+                <th scope="col">Patient</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Report</th>
+                <th scope="col">Image</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for ur in user_report %}
+              <tr>
+                <th scope="row">{{ur.report_id}}</th>
+                <td>{{ur.report_name}}</td>
+                <td>{{ur.lab_name}}</td>
+                <td>{{ur.patient_name}}</td>
+                <td><a href="{% url 'delete-report' ur.id %}" class="btn btn-outline-danger">Remove</a></td>
+                <td><a href="{{ur.report_upload.url}}" class="btn btn-outline-secondary" download="">Download</a></td>
+                {% if ur.report_image %}
+                <td><a href="{{ur.report_image.url}}" class="btn btn-outline-secondary" download="">Download</a></td>
+                {% else %}
+                <td>No Image</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+    </div>
+    {% if report or user_report %}
+    {% else %}
+        <h5 class="display-6 text-center border-bottom border-secondary">Oops! Sorry to interupt</h5>
+        <p class="text-center">Its Seems that neither you have uploaded any report of yourself nor someone else have uploaded for you.</p>
+        <p class="text-center">Please Upload your report to see</p>
+    {% endif %}
+</div>
+{% endblock body %}

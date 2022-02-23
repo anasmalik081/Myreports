@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home Page{% endblock title %}
+
+{% block body %}
+<div class="" id="bg">
+  <div class="container">
+    <div class="text-center py-5">
+      <h1 class="display-5  mt-5">Welcome to MyReports</h1>
+      <p>We serve people to handle all of their reports very easily. You can acces your any report anytime and anywhere. Our Vision is to help people regarding their reports so that they need not to go through different tests in case they somehow loose their report.</p>
+      <a href="{% url 'FAQ' %}" class="btn btn-outline-primary">Learn More</a>
+      {% if total and month %}
+      <div class="row mt-5">
+        <div class="col-sm-6 mb-3">
+          <div class="card rounded-pill border border-2 border-danger bg-light">
+            <div class="card-body ">
+              <p class="display-6 text-danger">Total Refferals : {{total.count}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card rounded-pill border border-2 border-primary bg-light">
+            <div class="card-body">
+              <p class="display-6 text-primary">Month Refferals : {{month.count}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock body %}

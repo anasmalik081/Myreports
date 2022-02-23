@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Login Page {% endblock title %}
+
+{% block body %}
+<div class="container">
+    <div class="row my-3">
+        <div class="col-sm-6 offset-sm-3">
+            <h3 class="text-muted">Login Form</h3>
+            <hr>
+            <div class="card-header bg-primary"></div>
+            <form method="post"  class="shadow p-5" novalidate action="">
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger my-3 ">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+                {% if messages %}
+                {% for message in messages %}
+                    <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+                {% endfor %}
+                {% endif %}
+                {% csrf_token %}
+                {% for fm in form %}
+                    <div class="form-group mb-3">
+                        {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+                    </div>
+                {% endfor %}
+
+
+                <small><a href="{% url 'password_reset' %}">Forgot Password ?</a></small>
+                <div class="d-flex justify-content-center">
+                    <input type="submit" value="LogIn" class="btn btn-primary my-4">
+                </div>
+                <div class="text-center fw-bold">
+                    <small class="text-primary">New to MyREPORTS ?
+                        <a href="{% url 'register' %}" class="text-danger">Create a Account</a>
+                    </small>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

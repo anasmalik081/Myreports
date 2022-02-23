@@ -1,0 +1,7 @@
+# will be ignore these files/directory
+pemFile/
+__pycache__/
+MyReports/__pycache__/
+env/
+mediafiles/
+*.pyc
