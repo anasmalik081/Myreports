@@ -1,4 +1,5 @@
-import socket
-hostname = socket.gethostname()
-local_ip = socket.gethostbyname(hostname)
-print(local_ip,type(local_ip))
+import urllib.request
+
+external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
+
+print(external_ip)
