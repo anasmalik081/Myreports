@@ -1,4 +1,6 @@
-"""Gunicorn *development* config file"""
+"""Gunicorn *development* config file
+source: https: // realpython.com/django-nginx-gunicorn/
+"""
 
 # Django WSGI application path in pattern MODULE_NAME:VARIABLE_NAME
 wsgi_app = "MyReports.wsgi:application"
