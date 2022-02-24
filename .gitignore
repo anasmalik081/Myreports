@@ -5,4 +5,5 @@ MyReports/__pycache__/
 env/
 mediafiles/
 *.pyc
+db.sqlite3
 add.txt
