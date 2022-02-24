@@ -3,6 +3,7 @@ from cProfile import label
 from datetime import datetime
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django.utils.translation import gettext_lazy as _
@@ -126,7 +127,28 @@ class PasswordChangeForm(PasswordChangeForm):
 
 class PasswordReset(PasswordResetForm):
     email = forms.CharField(required=True, label='Email', widget=forms.EmailInput(attrs={'autocomplete': 'email', 'class':'form-control'}))
-
+    error_messages = {
+        'unknown': ("That email address doesn't have an associated "
+                     "user account. Are you sure you've registered?"),
+        'unusable': ("The user account associated with this email "
+                      "address cannot reset the password."),
+        }
+    def clean_email(self):
+        """
+        Validates that an active user exists with the given email address.
+        """
+        UserModel = get_user_model()
+        email = self.cleaned_data["email"]
+        self.users_cache = UserModel._default_manager.filter(email__iexact=email)
+        if not len(self.users_cache):
+            raise forms.ValidationError(self.error_messages['unknown'])
+        if not any(user.is_active for user in self.users_cache):
+            # none of the filtered users are active
+            raise forms.ValidationError(self.error_messages['unknown'])
+        # if any((user.password == UNUSABLE_PASSWORD)
+        #     for user in self.users_cache):
+        #     raise forms.ValidationError(self.error_messages['unusable'])
+        return email
 
 
 class SetPassword(SetPasswordForm):

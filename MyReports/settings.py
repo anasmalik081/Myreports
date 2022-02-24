@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 from django.contrib.messages import constants as message_s
 from django.core.management.utils import get_random_secret_key
-import myip
+from .import myip
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -135,7 +135,13 @@ STATICFILES_DIRS = [
 ]
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 MEDIA_URL = '/media/'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'myreports444@gmail.com'
+EMAIL_HOST_PASSWORD = 'Myreports@123'
+EMAIL_PORT = 587
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
