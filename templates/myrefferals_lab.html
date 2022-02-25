@@ -48,7 +48,7 @@
                     <td>{{d.patient_name}}</td>
                     <td><a href="{{d.report_upload.url}}" class="btn btn-outline-secondary" download="">Download</a></td>
                     {% if d.report_image %}
-                    <td><a href="#" class="btn btn-outline-secondary" download="">Download</a></td>
+                    <td><a href="{{d.report_image.url}}" class="btn btn-outline-secondary" download="">Download</a></td>
                     {% else %}
                     <td>No Image</td>
                     {% endif %}
