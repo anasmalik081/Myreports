@@ -18,8 +18,8 @@
                 {% csrf_token %}
                 {% for fm in form %}
                     <div class="form-group mb-3">
-                        <label for="{{ field.auto_id }}">{{ field.label_tag }}
-    {% if field.field.required %}
+                        <label for="{{ fm.auto_id }}">{{ fm.label_tag }}
+    {% if fm.field.required %}
         <span class="required">*</span>
     {% endif %}
     </label>
