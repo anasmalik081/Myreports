@@ -120,8 +120,11 @@ class UserLogin(View):
 @method_decorator(login_required, name='dispatch')
 class AddProfile(View):
     def get(self, request):
-        form = AddProfileForm()
-        return render(request, 'add-to-profile.html', {'form':form})
+        if request.user.is_authenticated:
+            user = User.objects.get(username=request.user)
+            u_a_d = user_additional_detail.objects.get(user_id=user)
+            form = AddProfileForm(initial={'address':u_a_d.address, 'mobile_number':u_a_d.mobile_number, 'phone_number':u_a_d.phone_number})
+            return render(request, 'add-to-profile.html', {'form':form})
 
     def post(self, request):
         user = User.objects.get(username=request.user)
@@ -217,14 +220,12 @@ class ReportUpload(View):
                 # and name of first name and date-time
                 report_id = f"""{str(form.cleaned_data['patient_mobile_number'])[-4:]}{form.cleaned_data['patient_name'].split()[0].lower()}{datetime.datetime.now().strftime('%Y%m%d%H%M')}"""
             else:
-                print("REPORT ID  AYII")
                 report_id=form.cleaned_data['report_id']
             report_name = form.cleaned_data['report_name']
             reffered_by = form.cleaned_data['reffered_by']
             lab_name = form.cleaned_data['lab_name']
             patient_name = form.cleaned_data['patient_name']
             patient_mobile_number = form.cleaned_data['patient_mobile_number']
-            print(patient_mobile_number, "################################################")
             lab_mobile_number = form.cleaned_data['lab_mobile_number']
             report_upload = request.FILES['report_upload']
             try:

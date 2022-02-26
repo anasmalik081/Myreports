@@ -1,13 +1,15 @@
+from asyncio.windows_events import NULL
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
+from django.core.validators import FileExtensionValidator
 
 class user_additional_detail(models.Model):
     user_id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     address = models.TextField(max_length=500)
-    mobile_number = models.PositiveIntegerField(blank=True,null=True)
-    phone_number = models.PositiveIntegerField(blank=True, null=True)
-    profile_image = models.ImageField(blank=True, null=True ,upload_to='profileimg')
+    mobile_number = PhoneNumberField(blank=True, null=True)
+    phone_number = PhoneNumberField(blank=True, help_text='Replace Initial 0 with Country Code')
+    profile_image = models.ImageField(blank=True, null=True ,upload_to='profileimg', validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg'])])
     clinic_name = models.CharField(max_length=100, blank=True, null=True)
     lab_name = models.CharField(max_length=100, blank=True, null=True)
     is_doctor = models.BooleanField(default=False)
@@ -42,9 +44,9 @@ class Report(models.Model):
     patient_mobile_number = PhoneNumberField()
     lab_mobile_number = PhoneNumberField(blank=True)
     report_file_name = models.CharField(max_length=50)
-    report_upload = models.FileField(upload_to='reports')
+    report_upload = models.FileField(upload_to='reports', validators=[FileExtensionValidator(allowed_extensions=['doc', 'docx', 'pdf'])])
     report_img_name = models.CharField(max_length=100, null=True)
-    report_image = models.ImageField(blank=True, null=True ,upload_to='reports/img')
+    report_image = models.ImageField(blank=True, null=True ,upload_to='reports/img', validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg'])])
     create_date = models.DateTimeField(auto_now_add=False, auto_now=True)
     class Meta:
         constraints = [

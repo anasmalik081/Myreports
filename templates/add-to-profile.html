@@ -14,7 +14,7 @@
         </ul>
     </div>
     <div class="col-sm-8 offset-sm-1 ">
-        <h4 class="text-muted display-5">Update Form</h4>
+        <h4 class="text-muted display-5">Update Profile</h4>
         <hr>
         <div class="card-header bg-primary"></div>
             <form method="post"  class="shadow p-5" novalidate enctype="multipart/form-data" action="">
@@ -30,12 +30,11 @@
                 {% endif %}
                 {% csrf_token %}
                 {% for fm in form %}
-                <div class="form-group row mb-3">
-                    <label for="" class="col-sm-3 col-form-label">{{fm.label_tag}}</label>
-                    <div class="col-sm-9">
-                        {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+                    <div class="form-group mb-3">
+                        <div class="row">
+                        {{fm.label_tag}} {{fm}} <small class="text-success">{{ fm.help_text }}</small><small class="text-danger">{{fm.errors|striptags}}</small>
+                        </div>
                     </div>
-                  </div>
                 {% endfor %}
                 <div class="d-flex justify-content-center">
                     <input type="submit" value="Submit" class="btn btn-primary mt-4">
