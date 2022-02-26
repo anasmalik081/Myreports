@@ -17,8 +17,8 @@
                 {% endif %}
                 {% csrf_token %}
                 {% for fm in form %}
-<!--                     <div class="form-group mb-3">
-                        <label for="{{ fm.auto_id }}">{{ fm.label_tag }}
+                    <div class="form-group mb-3">
+<!--                         <label for="{{ fm.auto_id }}">{{ fm.label_tag }}
                                 {% if fm.field.required %}
                             <span class="alert alert-danger">*</span>
                                     {% endif %}
