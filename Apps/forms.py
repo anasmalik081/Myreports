@@ -32,6 +32,7 @@ USER_CHOICE = (
     #     return phone_number
 ############################################################
 class CustomerRegistrationForm(UserCreationForm):
+    required_css_class = 'required'
     user_type = forms.ChoiceField(required=True ,label="Select Your Category", choices=USER_CHOICE, widget=forms.Select(attrs={'class':'form-select'}))
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class':'form-control'}))
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'class':'form-control'}))
