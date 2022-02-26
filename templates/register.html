@@ -19,11 +19,12 @@
                 {% for fm in form %}
                     <div class="form-group mb-3">
                         <label for="{{ fm.auto_id }}">{{ fm.label_tag }}
-    {% if fm.field.required %}
-        <span class="required">*</span>
-    {% endif %}
-    </label>
-<!--                         {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small> -->
+                                {% if fm.field.required %}
+                            <span class="required">*</span>
+                                    {% endif %}
+                        </label>
+                 {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+<!--                         {{fm.label_tag}} -->
                     </div>
                 {% endfor %}
                 <div class="d-flex justify-content-center">
