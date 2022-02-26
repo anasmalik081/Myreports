@@ -20,7 +20,7 @@
                     <div class="form-group mb-3">
                         <label for="{{ fm.auto_id }}">{{ fm.label_tag }}
                                 {% if fm.field.required %}
-                            <span class="required">*</span>
+                            <span class="alert alert-danger">*</span>
                                     {% endif %}
                         </label>
                  {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
