@@ -12,7 +12,7 @@ urlpatterns = [
     path('contact-us/', views.ContactUs.as_view(), name='contact-us'),
     # url for login & logout
     path('accounts/login/', views.UserLogin.as_view(), name='login' ),
-    path('logout', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout', views.logout_view, name='logout'),
     # url for registration
     path('register/', views.CutomerRegistration.as_view(), name='register'),
     # url start for change password

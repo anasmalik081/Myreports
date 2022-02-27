@@ -1,11 +1,12 @@
 import datetime
 from unicodedata import name
 from django.db.models import Q
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from .forms import CustomerRegistrationForm, LoginForm, AddProfileForm, ReportUploadForm, QuestionsForm
-from django.contrib.auth import authenticate, login
+from django.views.decorators.cache import never_cache, cache_control
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
@@ -95,7 +96,7 @@ class UserLogin(View):
     def get(self, request):
         form = LoginForm()
         return render(request, 'login.html', {'form':form})
-
+    
     def post(self, request):
         form = LoginForm(request,request.POST)
         if form.is_valid():
@@ -116,6 +117,11 @@ class UserLogin(View):
                 return render(request, 'login.html', {'form':form})
         else:
             return render(request, 'login.html', {'form':form})
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect("/")
 
 @method_decorator(login_required, name='dispatch')
 class AddProfile(View):
@@ -153,6 +159,7 @@ def search(request):
         else:
             return render(request, 'blank_page.html')
 
+@login_required
 def yourreports(request):
     user = User.objects.get(username=request.user)
     report_by_other = Report.objects.filter(Q(patient_name__contains = request.user.first_name) & Q(patient_name__contains = request.user.last_name) & ~Q(user = user.id))
@@ -243,9 +250,11 @@ class ReportUpload(View):
             custom_name_file = str(report_id)+'_' + str(lab_name).replace(" ", "")+'_' \
                          + datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')+'.'+file_ext
             report_upload.name = custom_name_file.lower()
-            
+
             add = Report(user=user, report_id=report_id, report_name=report_name, lab_name=lab_name,reffered_by=reffered_by ,patient_name=patient_name,patient_mobile_number=patient_mobile_number,
                         lab_mobile_number=lab_mobile_number, report_upload=report_upload,report_file_name=custom_name_file.lower(), report_image=report_image, report_img_name=custom_name_img.lower() if custom_name_img else None)
             add.save()
             messages.success(request, f"You Report has been successfully Uploaded. Report ID- {report_id}. Please Note It Down")
+            form = ReportUploadForm()
         return render(request, 'upload_report.html', {'form':form})
+

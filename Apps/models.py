@@ -2,6 +2,9 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
+from .fileValidator import FileValidator
+
+
 
 class user_additional_detail(models.Model):
     user_id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -43,7 +46,7 @@ class Report(models.Model):
     patient_mobile_number = PhoneNumberField()
     lab_mobile_number = PhoneNumberField(blank=True)
     report_file_name = models.CharField(max_length=50)
-    report_upload = models.FileField(upload_to='reports', validators=[FileExtensionValidator(allowed_extensions=['doc', 'docx', 'pdf'])])
+    report_upload = models.FileField(upload_to='reports',validators=[FileValidator(max_size=(2*1024*1024) , allowed_extensions=('pdf', 'doc', 'docx'))])
     report_img_name = models.CharField(max_length=100, null=True)
     report_image = models.ImageField(blank=True, null=True ,upload_to='reports/img', validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg'])])
     create_date = models.DateTimeField(auto_now_add=False, auto_now=True)
