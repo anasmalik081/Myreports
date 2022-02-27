@@ -59,7 +59,7 @@ class CustomerRegistrationForm(UserCreationForm):
 
             return self.cleaned_data["clinic_name"]
         except(KeyError,ValueError):
-            pass
+            raise forms.ValidationError("This Field is Required")
 
     def clean_lab_name(self):
         try:
@@ -70,14 +70,14 @@ class CustomerRegistrationForm(UserCreationForm):
 
             return self.cleaned_data["lab_name"]
         except(KeyError,ValueError):
-            pass
+            raise forms.ValidationError("This Field is Required")
 
     def clean_email(self):
         try:
-            user = User.objects.get(email=self.cleaned_data['email'])
-            raise forms.ValidationError("Email Exist, Please try Other Email")
+            email = User.objects.get(email=self.cleaned_data['email'])
+            raise forms.ValidationError("Email already exists.")
         except User.DoesNotExist:
-            pass
+            return self.cleaned_data['email']
 
 
     
@@ -187,5 +187,5 @@ class PasswordReset(PasswordResetForm):
 
 
 class SetPassword(SetPasswordForm):
-    new_password1 = forms.CharField(label=_('New Password'), strip=False, widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}), help_text=password_validation.password_validators_help_text_html())
+    new_password1 = forms.CharField(label=_('New Password'), strip=False, widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control', 'id':'id_password'}), help_text=password_validation.password_validators_help_text_html())
     new_password2 = forms.CharField(label=_('Confirm Password'), strip=False, widget=forms.PasswordInput(attrs={'autocomplete': 'new password', 'class': 'form-control'}))

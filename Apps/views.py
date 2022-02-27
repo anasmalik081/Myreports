@@ -1,5 +1,6 @@
 import datetime
-from unicodedata import name
+from django.core.mail import send_mail
+from MyReports import settings
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -88,7 +89,13 @@ class CutomerRegistration(View):
                 user.groups.add(group)
             
             user_type.save()
+
             messages.success(request, 'Congratulations! You are Registered Successfully.')
+            subject = "Welcoming Mail From MyReports"
+            message = "Hello " + user.first_name + "! \n" + "Wecome to MyReports! \nYou are successfully registered to MyReports.\nNow You are a user and can enjoy our service\nTry to get our Membership as soon as possible to get extra benefits \nThank You \nBest Regards \nMyReports"
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [user.email]
+            send_mail(subject, message, from_email, to_list, fail_silently=False)
             return redirect('login')
         return render(request, 'register.html', {'form':form})
 
