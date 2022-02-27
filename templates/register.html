@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Register Page{% endblock title %}
 
@@ -17,14 +18,20 @@
                 {% endif %}
                 {% csrf_token %}
                 {% for fm in form %}
+                {% if fm.name == 'password1' %}
+                <div class="col-auto mb-3">
+                    <label class="" for="">{{fm.label_tag}}</label>
+                    <div class="input-group">
+                        {{fm}}
+                      <div id="showPass1"  class="input-group-text"><img src="{% static 'img/open-eye.svg' %}" id="openeye" alt=""><img src="{% static 'img/close-eye.svg' %}" id="closeeye" alt=""></div>
+                    </div>
+                    <small class="text-danger">{{fm.errors|striptags}}</small>
+                  </div>
+                {% else %}
                     <div class="form-group mb-3">
-<!--                         <label for="{{ fm.auto_id }}">{{ fm.label_tag }}
-                                {% if fm.field.required %}
-                            <span class="alert alert-danger">*</span>
-                                    {% endif %}
-                        </label> -->
                  {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
                     </div>
+                {% endif %}
                 {% endfor %}
                 <div class="d-flex justify-content-center">
                     <input type="submit" value="Submit" class="btn btn-primary my-3">

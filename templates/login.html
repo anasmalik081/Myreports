@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Login Page {% endblock title %}
 
@@ -21,12 +22,22 @@
                 {% endfor %}
                 {% endif %}
                 {% csrf_token %}
-                {% for fm in form %}
-                    <div class="form-group mb-3">
-                        {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+                <div class="col-auto mb-3">
+                    {{form.username.label_tag}}
+                    <div class="input-group">
+                        {{form.username}}
                     </div>
-                {% endfor %}
-
+                    <small class="text-danger">{{form.errors.username|striptags}}</small>
+                  </div>
+                
+                <div class="col-auto mb-3">
+                    {{form.password.label_tag}}
+                    <div class="input-group">
+                        {{form.password}}
+                      <div id="showPass"  class="input-group-text"><img src="{% static 'img/open-eye.svg' %}" id="openeye" alt=""><img src="{% static 'img/close-eye.svg' %}" id="closeeye" alt=""></div>
+                    </div>
+                    <small class="text-danger">{{form.errors.password|striptags}}</small>
+                  </div>
 
                 <small><a href="{% url 'password_reset' %}">Forgot Password ?</a></small>
                 <div class="d-flex justify-content-center">

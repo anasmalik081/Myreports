@@ -1,10 +1,12 @@
 from datetime import datetime
+import email
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django.utils.translation import gettext_lazy as _
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import password_validation
 from Apps.models import user_additional_detail, Report, Question
 from phonenumber_field.modelfields import PhoneNumberField
@@ -69,6 +71,15 @@ class CustomerRegistrationForm(UserCreationForm):
             return self.cleaned_data["lab_name"]
         except(KeyError,ValueError):
             pass
+
+    def clean_email(self):
+        try:
+            user = User.objects.get(email=self.cleaned_data['email'])
+            raise forms.ValidationError("Email Exist, Please try Other Email")
+        except User.DoesNotExist:
+            pass
+
+
     
     
 class LoginForm(AuthenticationForm):

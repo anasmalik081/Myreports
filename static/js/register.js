@@ -44,3 +44,39 @@ $('#id_user_type').on('change', function() {
         $('label').not('[for!="id_address"]').removeClass('required');
     }
 });
+
+$(document).ready(function(){
+    $('#openeye').hide();
+  
+    $('#showPass').on('click', function(){
+       var passInput=$("#id_password");
+       if(passInput.attr('type')==='password')
+         {
+            $('#openeye').show();
+            $('#closeeye').hide();
+           passInput.attr('type','text');
+       }else{
+          passInput.attr('type','password');
+          $('#openeye').hide();
+            $('#closeeye').show();
+       }
+   })
+ })
+
+ $(document).ready(function(){
+    $('#openeye').hide();
+  
+    $('#showPass1').on('click', function(){
+       var passInput=$("#id_password1");
+       if(passInput.attr('type')==='password')
+         {
+            $('#openeye').show();
+            $('#closeeye').hide();
+           passInput.attr('type','text');
+       }else{
+          passInput.attr('type','password');
+          $('#openeye').hide();
+            $('#closeeye').show();
+       }
+   })
+ })
